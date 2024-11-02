@@ -3,7 +3,7 @@
 import math
 
 # ## Task 0.1
-from typing import Callable, Iterable
+from typing import Any, Callable, List, Iterable, Tuple
 
 #
 # Implementation of a prelude of elementary functions.
@@ -121,14 +121,14 @@ def relu_back(x: float, c: float = 1) -> float:
 
 # TODO: Implement for Task 0.3.
 
-def map(iter, func):
+def map(iter: Iterable[Any], func: Callable[[Any], float]) -> Iterable[float]:
     for i in iter:
         yield func(i)
 
 
-def zipWith(iter1, iter2):
+def zipWith(iter1: Iterable[float], iter2: Iterable[float]) -> Iterable[Tuple[float, float]]:
     iter2_iterator = iter(iter2)
-    i2 = None
+    i2: float = 0.0
     is_second_exhausted = False
     for i1 in iter1:
         try:
@@ -140,27 +140,26 @@ def zipWith(iter1, iter2):
         yield (i1, i2)
 
 
-def reduce(iter, func, init_value=0.0):
+def reduce(iter: Iterable[float], func: Callable[..., float], init_value: float = 0.0) -> float:
     cur_value = init_value
     for i in iter:
         cur_value = func(cur_value, i)
     return cur_value
 
 
-def negList(arr):
+def negList(arr: List[float]) -> List[float]:
     return list(map(arr, lambda x: -x))
 
 
-def addLists(arr1, arr2):
+def addLists(arr1: List[float], arr2: List[float]) -> List[float]:
     a = zipWith(arr1, arr2)
     b = map(a, lambda x: x[0] + x[1])
     return list(b)
 
 
-def sum(arr):
-    return reduce(arr, lambda a, b: a + b, 0)
+def sum(arr: List[float]) -> float:
+    return reduce(arr, add, 0)
 
 
-def prod(arr):
-    return reduce(arr, lambda a, b: a * b, 1)
-
+def prod(arr: List[float]) -> float:
+    return reduce(arr, mul, 1)

@@ -1,5 +1,5 @@
 from dataclasses import dataclass
-from typing import Any, Iterable, List, Tuple
+from typing import Any, Iterable, Tuple
 
 from typing_extensions import Protocol
 from collections import defaultdict
@@ -81,7 +81,7 @@ def topological_sort(variable: Variable) -> Iterable[Variable]:
                     traverse(parent)
         sorted_variables.append(var)
         return
-    
+
     traverse(variable)
     return sorted_variables[::-1]
 
@@ -101,7 +101,6 @@ def backpropagate(variable: Variable, deriv: Any) -> None:
     derivatives = defaultdict(float)
     derivatives[variable.unique_id] = deriv
     sorted_variables = topological_sort(variable)
-    
     for var in sorted_variables:
         d_output = derivatives[var.unique_id]
         if var.is_leaf():
